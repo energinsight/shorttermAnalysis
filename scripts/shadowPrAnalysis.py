@@ -25,8 +25,8 @@ y = entsopr.load_data('DE_LU')
 
 
 
-shadowPlot(activeConst, 'shadowPrice')
-shadowPlot(activeConst, 'ram')
-shadowPlot(activeConst, 'fuaf')
-shadowPlot(activeConst, 'iva')
-shadowPlot(activeConst, 'fuafbyfmax')
+shadowPlot(activeConst, 'shadowPrice', save=True, auto_commit=True)
+shadowPlot(activeConst, 'ram', save=True, auto_commit=True)
+shadowPlot(activeConst, 'fuaf', save=True, auto_commit=True)
+shadowPlot(activeConst, 'iva', save=True, auto_commit=True)
+shadowPlot(activeConst, 'fuafbyfmax', save=True, auto_commit=True)

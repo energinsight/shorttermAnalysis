@@ -2,9 +2,11 @@
 
 import plotly.graph_objects as go
 import pandas as pd
+import os
+import subprocess
 
 
-def shadowPlot(df, y_column):
+def shadowPlot(df, y_column, save=False, auto_commit=False):
     """
     Create a Plotly plot grouped by TSO.
     
@@ -13,7 +15,11 @@ def shadowPlot(df, y_column):
     df : pandas.DataFrame
         Input dataframe containing 'tso', 'dateTimeUtc' and the y_column
     y_column : str
-        Column name to plot on y axis
+        Column name to plot on y axis. Also used as the filename for saving.
+    save : bool, optional
+        If True, save the plot as an HTML file with the column name (default: False)
+    auto_commit : bool, optional
+        If True, automatically commit and push the saved plot to git repo (default: False)
     
     Returns:
     --------
@@ -49,4 +55,21 @@ def shadowPlot(df, y_column):
         height=600
     )
 
+    # Save plot with filename based on y_column if save flag is True
+    if save:
+        save_filename = f'{y_column}.html'
+        fig.write_html(save_filename)
+        print(f"Plot saved to: {save_filename}")
+        
+        # Auto commit and push if requested
+        if auto_commit:
+            try:
+                subprocess.run(['git', 'add', save_filename], check=True, capture_output=True)
+                subprocess.run(['git', 'commit', '-m', f'Automated commit: Add plot {save_filename}'], 
+                             check=True, capture_output=True)
+                subprocess.run(['git', 'push'], check=True, capture_output=True)
+                print(f"Committed and pushed {save_filename} to repository")
+            except subprocess.CalledProcessError as e:
+                print(f"Git operation failed: {e}")
+    
     fig.show()
