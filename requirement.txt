@@ -1,0 +1,5 @@
+git+https://github.com/energinsight/dataframework.git
+entsoe-py
+numpy
+pandas
+plotly
